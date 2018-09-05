@@ -12,7 +12,7 @@ import {
 import { loadSystemPreferencesSaga } from "./preferences";
 import { startupSaga } from "./startup";
 import walletSaga from "./wallet";
-import { watchDeferredActionsSaga } from "./watchDeferredActionsSaga";
+import { watchDeferredActionsSaga } from "./watchDeferredNavigationSaga";
 
 import { apiUrlPrefix } from "../config";
 
