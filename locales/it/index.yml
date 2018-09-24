@@ -36,7 +36,7 @@ errors:
 startup:
   title: Inizializzazione
   authentication: Utente autenticato
-  sessionInfo: Attributi SPID caricati
+  sessionInfo: Attributi caricati
   profileInfo: Profilo utente caricato
   profileEnabled: Profilo utente abilitato
 login:
@@ -58,7 +58,7 @@ profile:
   main:
     screenTitle: Profilo
     screenSubtitle: "Qui trovi informazioni e dati legati al tuo account: identità, sicurezza, tuoi
-      dati personali, etc."
+      dati personali."
     logout: Logout/Esci
     privacy:
       title: Privacy
@@ -90,7 +90,7 @@ navigation:
 spid:
   login: ACCEDI
   loginButton: ENTRA CON
-  selectIdp: Per procedere all'accesso, seleziona il gestione della tua identità SPID
+  selectIdp: Per accedere, seleziona il gestore della tua identità SPID
   selectDemoIdp: Se non possiedi ancora una tua identità SPID, naviga l'app in modalità
     demo
   loginErrorAlert:
@@ -100,14 +100,13 @@ spid:
   subscription:
     line1: SPID è l'identità digitale per accedere ai servizi online della Pubblica
       Amministrazione Italiana.
-    line2: Inserisci la tua e-mail per attivarla.
+    line2: Inserisci la tua email per attivarla.
 authentication:
   landing:
     login: Entra con SPID
     nospid: Non hai SPID? Scopri di più
     card1-title: Tutti i messaggi in un solo posto
-    card1-content: Visualizza tutte le comunicazioni in arrivo dalle Amministrazioni
-      Pubbliche
+    card1-content: Visualizza tutte le comunicazioni in arrivo dalla Pubblica Amministrazione
     card2-title: Usa i tuoi metodi di pagamento preferiti
     card2-content: Puoi pagare un tributo o una multa con il tuo conto corrente e
       le tue carte
@@ -121,42 +120,37 @@ authentication:
     headerTitle: Non hai SPID?
     contentTitle: Cos'è SPID?
     paragraph1: SPID, il Sistema Pubblico di Identità Digitale, ti permette di accedere
-      a tutti i servizi della Pubblica Amministrazione con un'unica Identità Digitale
-      (username e password).
+      a tutti i servizi della Pubblica Amministrazione con un unico nome utente e un'unica password.
     paragraph2: Se ti va, lasciaci il tuo indirizzo email per ricevere promemoria
       e aggiornamenti su questa app
     paragraph3: Proseguendo dichiari di accettare le
-    moreLinkText: Per saperne di più
     tosLinkText: regole sul trattamento dei dati personali
     continue: Continua
   spid_information:
     headerTitle: Non hai SPID?
     contentTitle: Cos'è SPID?
     moreLinkText: Per saperne di più
-    subtitle: SPID è sicuro
+    subtitle: Come ottenere SPID
     paragraph1: SPID, il Sistema Pubblico di Identità Digitale, ti permette di accedere
-      a tutti i servizi della Pubblica Amministrazione con un'unica Identità Digitale
-      (username e password).
-    paragraph2-part1: 'SPID ti permette di fare online cose che prima potevi fare
-      solo di persona: per registrarti a SPID dovrai quindi '
+      a tutti i servizi della Pubblica Amministrazione con un unico nome utente e un'unica password.
+    paragraph2-part1: 'SPID ti permette di fare 
+    paragraph2-bold: on line 
+    paragraph2-part2:cose che prima potevi fare solo andando di persona in un ufficio della Pubblica Amministrazione. Per questo motivo per ottenere SPID dovrai prima '
     paragraph2-bold: certificare la tua identità
-    paragraph2-part2: 'completando il riconoscimento presso un Identity Provider.
+    paragraph2-part3: 'completando il riconoscimento presso un Provider.
       Ecco cosa dovrai fare:'
     point1-value: '1'
-    point1-content: "Scegli il tuo \nIdentity Provider"
+    point1-content: "Scegli il tuo \nIdentity Provider, il soggetto che dovrà certificare la tua identità "
     point2-value: '2'
     point2-content: Inserisci i tuoi dati anagrafici ed il tuo cellulare
     point3-value: '3'
     point3-content: Carica una copia dei tuoi documenti d'identità
     point4-value: '4'
-    point4-content: "Completa il \nriconoscimento"
-    knowMore: Puoi saperne di più su spid.gov.it
+    point4-content: "Completa il \nriconoscimento (di persona o via webcam)"
+    knowMore: Richiedi SPID
   idp_selection:
     headerTitle: Home
-    contentTitle: Scegli il tuo Identity Provider
-    subtitle: "I diversi Identity Provider permettono diverse modalità di
-      riconoscimento e offrono insieme a SPID servizi diversi: scopri i
-      dettagli di ciascuno"
+    contentTitle: Qual è il tuo Identity Provider?
     cancel: Annulla
   idp_login:
     headerTitle: Accedi
@@ -175,22 +169,18 @@ onboarding:
     continue: Continua
   pin:
     headerTitle: Attivazione
-    contentTitle: Scegli un codice PIN
-    contentTitleConfirm: Digita ancora il PIN
-    pinInfo: Questo codice ti verrà richiesto ogni volta che aprirai l’app e quando
-      dovrai visualizzare dati sensibili o compiere operazioni dispositive. Deve essere
-      composto di 5 cifre. Ricordalo con attenzione. Potrai cambiarlo in ogni momento
-      entrando con SPID.
-    pinInfoSelected: Questo codice ti verrà richiesto ogni volta che aprirai l’app
-      e quando dovrai visualizzare dati sensibili o compiere operazioni dispositive.
-    moreLinkText: Per saperne di più.
+    contentTitle: Inserisci il tuo codice PIN
+    contentTitleConfirm: Inserisci di nuovo il PIN
+    pinInfo: Scegli un PIN di cinque cifre, il codice di attivazione che userai ogni volta che devi aprire l'app, gestire i tuoi dati, autorizzare e fare pagamenti. Potrai cambiarlo in ogni momento, momento
+    entrando con le tue credenziali SPID.
+    pinInfoSelected: Inserisci di nuovo il tuo PIN.
     continue: Continua
     reset: Modifica il codice
-    confirmValid: grazie, puoi continuare
-    confirmInvalid: i due pin non coincidono
+    confirmValid: Grazie, puoi continuare
+    confirmInvalid: I due PIN non coincidono
 pin_login:
   pin:
-    pinInfo: Inserisci il codice PIN
+    pinInfo: Inserisci di nuovo il tuo codice di attivazione di cinque cifre (PIN) e prosegui
     reset:
       button: Ho dimenticato il PIN
       button_short: Reimposta PIN
@@ -230,17 +220,14 @@ wallet:
   creditcards: Carte di Credito
   paymentMethods: Metodi di pagamento
   paymentMethod: Metodo di pagamento
-  pickPaymentMethod:
-    unavailable:
-      title: Questo metodo di pagamento non è ancora disponibile
-      message: Questo metodo di pagamento sarà disponibile in una versione futura
   add: aggiungi
   delete:
     successful: Carta cancellata correttamente
     failed: Impossibile cancellare la carta
   newPaymentMethod:
     add: aggiungi
-    addButton: Aggiungi una carta
+    addButton: Aggiungi un metodo di pagamento
+    newMethod: Scegli un altro metodo di pagamento
     addDescription: Puoi aggiungere i tuoi metodi di pagamento (carte, conti correnti,
       ecc.) per non doverli inserire ad ogni transazione
     successful: Carta aggiunta con successo
@@ -283,12 +270,9 @@ wallet:
     changeMethod: Cambia metodo di pagamento
     change: Cambia metodo
   payWith:
-    noWallets:
-      title: Nessuna carta salvata
-      text: Aggiungi una carta per procedere con il pagamento
     header: Scelta metodo di pagamamento
     title: Paga con
-    text: Scegli fra i metodi salvati o aggiungi un nuovo metodo di pagamento
+    info: Scegli fra i metodi salvati o aggiungi un nuovo metodo di pagamento
   firstTransactionSummary:
     header: Riepilogo avviso di Pagamento
     title: Avviso di pagamento
