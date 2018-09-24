@@ -5,7 +5,13 @@
  * - ACTION_NAME_(REQUEST|CANCEL|SUCCESS|FAILURE)
  */
 
-import { FetchRequestActionsType } from "../actions/constants";
+import {
+  FetchRequestActionsType,
+  PAYMENT_RESET_LOADING,
+  PAYMENT_SET_LOADING,
+  WALLET_MANAGEMENT_RESET_LOADING_STATE,
+  WALLET_MANAGEMENT_SET_LOADING_STATE
+} from "../actions/constants";
 import { Action } from "../actions/types";
 import { GlobalState } from "./types";
 
@@ -13,13 +19,18 @@ export type LoadingState = Readonly<
   { [key in FetchRequestActionsType]: boolean }
 >;
 
-export const INITIAL_STATE: LoadingState = {
+const INITIAL_STATE: LoadingState = {
   TOS_ACCEPT: false,
   PIN_CREATE: false,
   PROFILE_LOAD: false,
   PROFILE_UPSERT: false,
+  MESSAGE_WITH_RELATIONS_LOAD: false,
   MESSAGES_LOAD: false,
-  LOGOUT: false
+  LOGOUT: false,
+  PAYMENT_LOAD: false,
+  WALLET_MANAGEMENT_LOAD: false,
+  FETCH_WALLETS: false,
+  FETCH_TRANSACTIONS: false
 };
 
 /**
@@ -42,6 +53,46 @@ const reducer = (
   action: Action
 ): LoadingState => {
   const { type } = action;
+
+  /**
+   * The payment process has multiple occurrences
+   * where the loading state needs to be set/reset
+   * (additionally, sometimes there occurrences follow
+   * one another immediately)
+   * Instead of handling each *_REQUEST individually,
+   * we're using dedicated set/reset actions
+   */
+  if (type === PAYMENT_SET_LOADING) {
+    return {
+      ...state,
+      PAYMENT_LOAD: true
+    };
+  }
+  if (type === PAYMENT_RESET_LOADING) {
+    return {
+      ...state,
+      PAYMENT_LOAD: false
+    };
+  }
+
+  /**
+   * The wallet management processes are aggregated
+   * under WALLET_MANAGEMENT (it currently includes
+   * deletion and "setting as favourite" of wallets)
+   */
+  if (type === WALLET_MANAGEMENT_SET_LOADING_STATE) {
+    return {
+      ...state,
+      WALLET_MANAGEMENT_LOAD: true
+    };
+  }
+  if (type === WALLET_MANAGEMENT_RESET_LOADING_STATE) {
+    return {
+      ...state,
+      WALLET_MANAGEMENT_LOAD: false
+    };
+  }
+
   const matches = /(.*)_(REQUEST|CANCEL|SUCCESS|FAILURE)/.exec(type);
 
   // Not a *_REQUEST / *_CANCEL / *_SUCCESS /  *_FAILURE action, so we ignore it

@@ -57,6 +57,13 @@ type OwnProps = Readonly<{
 type Props = OwnProps & ReduxMappedStateProps & ReduxMappedDispatchProps;
 
 class PickPaymentMethodScreen extends React.Component<Props> {
+  public shouldComponentUpdate(nextProps: Props) {
+    // avoids updating the component on invalid props to avoid having the screen
+    // become blank during transitions from one payment state to another
+    // FIXME: this is quite fragile, we should instead avoid having a shared state
+    return nextProps.valid;
+  }
+
   public render(): React.ReactNode {
     if (!this.props.valid) {
       return null;
@@ -66,7 +73,7 @@ class PickPaymentMethodScreen extends React.Component<Props> {
       block: true,
       onPress: () =>
         this.props.navigation.navigate(ROUTES.WALLET_ADD_PAYMENT_METHOD),
-      title: I18n.t("wallet.newPaymentMethod.newMethod")
+      title: I18n.t("wallet.newPaymentMethod.addButton")
     };
 
     const secondaryButtonProps = {
@@ -75,6 +82,8 @@ class PickPaymentMethodScreen extends React.Component<Props> {
       onPress: this.props.showSummary,
       title: I18n.t("global.buttons.cancel")
     };
+
+    const { wallets } = this.props;
 
     return (
       <Container>
@@ -91,13 +100,25 @@ class PickPaymentMethodScreen extends React.Component<Props> {
 
           <View style={WalletStyles.paddedLR}>
             <View spacer={true} />
-            <H1> {I18n.t("wallet.payWith.title")} </H1>
+            <H1>
+              {I18n.t(
+                wallets.length > 0
+                  ? "wallet.payWith.title"
+                  : "wallet.payWith.noWallets.title"
+              )}
+            </H1>
             <View spacer={true} />
-            <Text> {I18n.t("wallet.payWith.info")}</Text>
+            <Text>
+              {I18n.t(
+                wallets.length > 0
+                  ? "wallet.payWith.text"
+                  : "wallet.payWith.noWallets.text"
+              )}
+            </Text>
             <View spacer={true} />
             <List
               removeClippedSubviews={false}
-              dataArray={this.props.wallets as any[]} // tslint:disable-line: readonly-array
+              dataArray={wallets as any[]} // tslint:disable-line: readonly-array
               renderRow={(item): React.ReactElement<any> => (
                 <CardComponent
                   navigation={this.props.navigation}

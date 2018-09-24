@@ -53,6 +53,13 @@ export const WalletStyles = StyleSheet.create({
     backgroundColor: variables.colorWhite,
     flex: 1
   },
+  padded: {
+    padding: variables.contentPadding
+  },
+  noBottomPadding: {
+    padding: variables.contentPadding,
+    paddingBottom: 0
+  },
   pfImage: {
     height: "100%",
     width: "100%",
@@ -128,5 +135,9 @@ export const WalletStyles = StyleSheet.create({
     height: 50,
     alignItems: "flex-end",
     flexDirection: "row"
+  },
+  listItem: {
+    marginLeft: 0,
+    paddingRight: 0
   }
 });

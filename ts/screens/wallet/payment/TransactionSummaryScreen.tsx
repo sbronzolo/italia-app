@@ -19,6 +19,7 @@ import { NavigationScreenProp, NavigationState } from "react-navigation";
 import { connect } from "react-redux";
 import { EnteBeneficiario } from "../../../../definitions/backend/EnteBeneficiario";
 import GoBackButton from "../../../components/GoBackButton";
+import { withLoadingSpinner } from "../../../components/helpers/withLoadingSpinner";
 import AppHeader from "../../../components/ui/AppHeader";
 import FooterWithButtons from "../../../components/ui/FooterWithButtons";
 import Markdown from "../../../components/ui/Markdown";
@@ -26,9 +27,11 @@ import PaymentSummaryComponent from "../../../components/wallet/PaymentSummaryCo
 import I18n from "../../../i18n";
 import { Dispatch } from "../../../store/actions/types";
 import {
+  paymentRequestCancel,
   paymentRequestContinueWithPaymentMethods,
   paymentRequestGoBack
 } from "../../../store/actions/wallet/payment";
+import { createLoadingSelector } from "../../../store/reducers/loading";
 import { GlobalState } from "../../../store/reducers/types";
 import {
   getCurrentAmount,
@@ -60,6 +63,7 @@ type ReduxMappedStateProps =
 type ReduxMappedDispatchProps = Readonly<{
   confirmSummary: () => void;
   goBack: () => void;
+  cancelPayment: () => void;
 }>;
 
 type OwnProps = Readonly<{
@@ -87,6 +91,13 @@ class TransactionSummaryScreen extends React.Component<Props, never> {
     super(props);
   }
 
+  public shouldComponentUpdate(nextProps: Props) {
+    // avoids updating the component on invalid props to avoid having the screen
+    // become blank during transitions from one payment state to another
+    // FIXME: this is quite fragile, we should instead avoid having a shared state
+    return nextProps.valid;
+  }
+
   public render(): React.ReactNode {
     if (!this.props.valid) {
       return null;
@@ -107,7 +118,7 @@ class TransactionSummaryScreen extends React.Component<Props, never> {
     const secondaryButtonProps = {
       block: true,
       light: true,
-      onPress: () => this.props.goBack(),
+      onPress: () => this.props.cancelPayment(),
       title: I18n.t("wallet.cancel")
     };
 
@@ -172,10 +183,15 @@ const mapStateToProps = (state: GlobalState): ReduxMappedStateProps =>
 
 const mapDispatchToProps = (dispatch: Dispatch): ReduxMappedDispatchProps => ({
   confirmSummary: () => dispatch(paymentRequestContinueWithPaymentMethods()),
-  goBack: () => dispatch(paymentRequestGoBack())
+  goBack: () => dispatch(paymentRequestGoBack()),
+  cancelPayment: () => dispatch(paymentRequestCancel())
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TransactionSummaryScreen);
+export default withLoadingSpinner(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(TransactionSummaryScreen),
+  createLoadingSelector(["PAYMENT_LOAD"]),
+  {}
+);

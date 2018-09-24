@@ -33,17 +33,17 @@ import * as React from "react";
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 import { connect } from "react-redux";
 import { RptIdFromString } from "../../../../definitions/backend/RptIdFromString";
+import { withLoadingSpinner } from "../../../components/helpers/withLoadingSpinner";
 import AppHeader from "../../../components/ui/AppHeader";
-
 import FooterWithButtons from "../../../components/ui/FooterWithButtons";
 import I18n from "../../../i18n";
-import ROUTES from "../../../navigation/routes";
-
 import { Dispatch } from "../../../store/actions/types";
 import {
+  paymentRequestCancel,
   paymentRequestGoBack,
   paymentRequestTransactionSummaryFromRptId
 } from "../../../store/actions/wallet/payment";
+import { createLoadingSelector } from "../../../store/reducers/loading";
 import { GlobalState } from "../../../store/reducers/types";
 import { getPaymentStep } from "../../../store/reducers/wallet/payment";
 
@@ -54,6 +54,7 @@ type ReduxMappedStateProps = Readonly<{
 type ReduxMappedDispatchProps = Readonly<{
   showTransactionSummary: (rptId: RptId, amount: AmountInEuroCents) => void;
   goBack: () => void;
+  cancelPayment: () => void;
 }>;
 
 type OwnProps = Readonly<{
@@ -114,6 +115,13 @@ class ManualDataInsertionScreen extends React.Component<Props, State> {
     }
   };
 
+  public shouldComponentUpdate(nextProps: Props) {
+    // avoids updating the component on invalid props to avoid having the screen
+    // become blank during transitions from one payment state to another
+    // FIXME: this is quite fragile, we should instead avoid having a shared state
+    return nextProps.valid;
+  }
+
   public render(): React.ReactNode {
     if (!this.props.valid) {
       return null;
@@ -130,7 +138,7 @@ class ManualDataInsertionScreen extends React.Component<Props, State> {
       block: true,
       light: true,
       bordered: true,
-      onPress: () => this.props.navigation.navigate(ROUTES.WALLET_HOME),
+      onPress: () => this.props.cancelPayment(),
       title: I18n.t("global.buttons.cancel")
     };
 
@@ -206,10 +214,15 @@ const mapStateToProps = (state: GlobalState): ReduxMappedStateProps => ({
 const mapDispatchToProps = (dispatch: Dispatch): ReduxMappedDispatchProps => ({
   showTransactionSummary: (rptId: RptId, amount: AmountInEuroCents) =>
     dispatch(paymentRequestTransactionSummaryFromRptId(rptId, amount)),
-  goBack: () => dispatch(paymentRequestGoBack())
+  goBack: () => dispatch(paymentRequestGoBack()),
+  cancelPayment: () => dispatch(paymentRequestCancel())
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ManualDataInsertionScreen);
+export default withLoadingSpinner(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ManualDataInsertionScreen),
+  createLoadingSelector(["PAYMENT_LOAD"]),
+  {}
+);

@@ -1,10 +1,15 @@
 import merge from "lodash/merge";
 import { Text, View } from "native-base";
 import * as React from "react";
+import { InteractionManager, LayoutAnimation, UIManager } from "react-native";
+import { connect } from "react-redux";
 import * as SimpleMarkdown from "simple-markdown";
 
 import { isDevEnvironment } from "../../../config";
 import I18n from "../../../i18n";
+import { Dispatch, ReduxProps } from "../../../store/actions/types";
+import variables from "../../../theme/variables";
+import ActivityIndicator from "../ActivityIndicator";
 import reactNativeRules from "./rules";
 
 // A regex to test if a string ends with `/n/n`
@@ -20,7 +25,11 @@ const markdownParser = SimpleMarkdown.parserFor(rules);
 const ruleOutput = SimpleMarkdown.ruleOutput(rules, "react_native");
 const reactOutput = SimpleMarkdown.reactFor(ruleOutput);
 
-function renderMarkdown(body: string): React.ReactNode {
+function renderMarkdown(
+  body: string,
+  dispatch: Dispatch,
+  initialState: SimpleMarkdown.State = {}
+): React.ReactNode {
   try {
     /**
      * Since many rules expect blocks to end in "\n\n", we append that
@@ -29,13 +38,20 @@ function renderMarkdown(body: string): React.ReactNode {
      */
     const blockSource = BLOCK_END_REGEX.test(body) ? body : body + "\n\n";
 
+    // We merge the initialState with always needed attributes
+    const state: SimpleMarkdown.State = {
+      ...initialState,
+      inline: false,
+      dispatch
+    };
+
     // Generate the syntax tree
     const syntaxTree = markdownParser(blockSource, {
       inline: false
     });
 
     // Render the syntax tree using the rules and return the value
-    return reactOutput(syntaxTree);
+    return reactOutput(syntaxTree, state);
   } catch (error) {
     return isDevEnvironment ? (
       <Text>
@@ -48,12 +64,93 @@ function renderMarkdown(body: string): React.ReactNode {
   }
 }
 
+type NotLazy = {
+  lazy: false;
+};
+
+type Lazy = {
+  lazy: true;
+  animated?: boolean;
+};
+
+type OwnProps = {
+  children: string;
+  lazyOptions?: NotLazy | Lazy;
+  initialState?: SimpleMarkdown.State;
+};
+
+type Props = OwnProps & ReduxProps;
+
+interface State {
+  renderedMarkdown: ReturnType<typeof renderMarkdown> | undefined;
+  cancelRender?: () => void;
+}
+
 /**
  * A component that accepts "markdown" as child and render react native
  * components.
  */
-const Markdown: React.SFC<{
-  children: string;
-}> = props => <View>{renderMarkdown(props.children)}</View>;
+export class Markdown extends React.PureComponent<Props, State> {
+  public static defaultProps: Pick<Props, "lazyOptions"> = {
+    lazyOptions: {
+      lazy: false
+    }
+  };
 
-export default Markdown;
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      renderedMarkdown: undefined
+    };
+  }
+
+  public componentDidMount() {
+    const { lazyOptions, children, initialState, dispatch } = this.props;
+    if (lazyOptions && lazyOptions.lazy) {
+      // Render the markdown string asynchronously.
+      const cancelRender = InteractionManager.runAfterInteractions(() => {
+        if (lazyOptions.animated) {
+          // animate the layout change
+          // see https://facebook.github.io/react-native/docs/layoutanimation.html
+          if (UIManager.setLayoutAnimationEnabledExperimental) {
+            UIManager.setLayoutAnimationEnabledExperimental(true);
+          }
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        }
+        this.setState({
+          renderedMarkdown: renderMarkdown(children, dispatch, initialState)
+        });
+      }).cancel;
+      this.setState({
+        cancelRender
+      });
+    }
+  }
+
+  public componentWillUnmount() {
+    if (this.state.cancelRender) {
+      // before unmounting, cancel the delayed rendering
+      this.state.cancelRender();
+    }
+  }
+
+  public render() {
+    const { lazyOptions, children, initialState, dispatch } = this.props;
+    if (lazyOptions && lazyOptions.lazy) {
+      if (!this.state.renderedMarkdown) {
+        return (
+          <View centerJustified={true}>
+            <ActivityIndicator color={variables.brandPrimaryLight} />
+          </View>
+        );
+      }
+
+      return <View>{this.state.renderedMarkdown}</View>;
+    }
+
+    return <View>{renderMarkdown(children, dispatch, initialState)}</View>;
+  }
+}
+
+export default connect()(Markdown);

@@ -4,7 +4,8 @@ import {
   ListRenderItem,
   ListRenderItemInfo,
   SectionList,
-  SectionListData
+  SectionListData,
+  StyleSheet
 } from "react-native";
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 import { connect } from "react-redux";
@@ -17,10 +18,7 @@ import IconFont from "../../components/ui/IconFont";
 
 import ROUTES from "../../navigation/routes";
 
-import {
-  contentOrganizationLoad,
-  contentServiceLoad
-} from "../../store/actions/content";
+import { contentServiceLoad } from "../../store/actions/content";
 import { ReduxProps } from "../../store/actions/types";
 import { OrganizationNamesByFiscalCodeState } from "../../store/reducers/entities/organizations/organizationsByFiscalCodeReducer";
 import { ServicesState } from "../../store/reducers/entities/services";
@@ -36,6 +34,15 @@ import { isDefined } from "../../utils/guards";
 import TopScreenComponent from "../../components/screens/TopScreenComponent";
 import H4 from "../../components/ui/H4";
 import Markdown from "../../components/ui/Markdown";
+import variables from "../../theme/variables";
+
+const styles = StyleSheet.create({
+  fixCroppedItalic: {
+    // Leave a little bit of space in order to avoid cropped characters
+    // due to italic style.
+    paddingRight: variables.fontSizeBase / 3
+  }
+});
 
 type ReduxMappedProps = Readonly<{
   profile: ProfileState;
@@ -75,12 +82,9 @@ class ServicesScreen extends React.PureComponent<Props> {
 
     const onPress = () => {
       // when a service gets selected, before navigating to the service detail
-      // screen, we issue a contentServiceLoad and a contentOrganizationLoad
-      // to refresh the service and organization metadata
+      // screen, we issue a contentServiceLoad to refresh the service metadata
       this.props.dispatch(contentServiceLoad(service.service_id));
-      this.props.dispatch(
-        contentOrganizationLoad(service.organization_fiscal_code)
-      );
+
       const params: IMessageDetailsScreenParam = {
         service
       };
@@ -95,7 +99,7 @@ class ServicesScreen extends React.PureComponent<Props> {
                 <H4>{service.service_name}</H4>
               </Row>
               <Row>
-                <Text italic={true}>
+                <Text italic={true} style={styles.fixCroppedItalic}>
                   {enabledChannels.inbox
                     ? I18n.t("services.serviceIsEnabled")
                     : I18n.t("services.serviceNotEnabled")}

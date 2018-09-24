@@ -5,12 +5,14 @@ import { none, Option, some } from "fp-ts/lib/Option";
 import { AmountInEuroCents } from "italia-ts-commons/lib/pagopa";
 import { values } from "lodash";
 import { createSelector } from "reselect";
-import { Wallet } from "../../../types/pagopa";
+import { CreditCard, Wallet } from "../../../types/pagopa";
 import {
+  CREDIT_CARD_DATA_CLEANUP,
+  FETCH_WALLETS_SUCCESS,
   PAYMENT_UPDATE_PSP_IN_STATE,
   SELECT_WALLET_FOR_DETAILS,
   SET_FAVORITE_WALLET,
-  WALLETS_FETCHED
+  STORE_CREDIT_CARD_DATA
 } from "../../actions/constants";
 import { Action } from "../../actions/types";
 import { IndexedById, toIndexed } from "../../helpers/indexer";
@@ -20,12 +22,14 @@ export type WalletsState = Readonly<{
   list: IndexedById<Wallet>;
   selectedWalletId: Option<number>;
   favoriteWalletId: Option<number>;
+  newCreditCard: Option<CreditCard>;
 }>;
 
-export const WALLETS_INITIAL_STATE: WalletsState = {
+const WALLETS_INITIAL_STATE: WalletsState = {
   list: {},
   selectedWalletId: none,
-  favoriteWalletId: none
+  favoriteWalletId: none,
+  newCreditCard: none
 };
 
 // selectors
@@ -34,12 +38,28 @@ export const getSelectedWalletId = (state: GlobalState) =>
   state.wallet.wallets.selectedWalletId;
 export const getFavoriteWalletId = (state: GlobalState) =>
   state.wallet.wallets.favoriteWalletId;
+export const getNewCreditCard = (state: GlobalState) =>
+  state.wallet.wallets.newCreditCard;
 
 export const walletsSelector = createSelector(
   getWallets,
   // define whether an order among cards needs to be established
   // (e.g. by insertion date, expiration date, ...)
-  (wallets: IndexedById<Wallet>): ReadonlyArray<Wallet> => values(wallets)
+  (wallets: IndexedById<Wallet>): ReadonlyArray<Wallet> =>
+    values(wallets).sort(
+      // sort by date, descending
+      // if both dates are undefined -> 0
+      // if either is undefined, it is considered as used "infinitely" long ago
+      // (i.e. the non-undefined one is considered as used more recently)
+      (a, b) =>
+        -(a.lastUsage === undefined
+          ? b.lastUsage === undefined
+            ? 0
+            : -1
+          : b.lastUsage === undefined
+            ? 1
+            : a.lastUsage.getTime() - b.lastUsage.getTime())
+    )
 );
 
 export const getWalletFromId = (
@@ -54,12 +74,6 @@ export const selectedWalletSelector = createSelector(
   getWalletFromId
 );
 
-export const favoriteWalletSelector = createSelector(
-  getFavoriteWalletId,
-  getWallets,
-  getWalletFromId
-);
-
 export const specificWalletSelector = (walletId: number) =>
   createSelector(() => some(walletId), getWallets, getWalletFromId);
 
@@ -68,12 +82,17 @@ export const feeExtractor = (w: Wallet): AmountInEuroCents | undefined =>
     ? undefined
     : (("0".repeat(10) + `${w.psp.fixedCost.amount}`) as AmountInEuroCents);
 
+export const walletCountSelector = createSelector(
+  getWallets,
+  (wallets: IndexedById<Wallet>) => Object.keys(wallets).length
+);
+
 // reducer
 const reducer = (
   state: WalletsState = WALLETS_INITIAL_STATE,
   action: Action
 ): WalletsState => {
-  if (action.type === WALLETS_FETCHED) {
+  if (action.type === FETCH_WALLETS_SUCCESS) {
     return {
       ...state,
       list: toIndexed(action.payload, "idWallet")
@@ -89,6 +108,26 @@ const reducer = (
     return {
       ...state,
       favoriteWalletId: action.payload
+    };
+  }
+  /**
+   * Store the credit card information locally
+   * before sending it to pagoPA
+   */
+  if (action.type === STORE_CREDIT_CARD_DATA) {
+    return {
+      ...state,
+      newCreditCard: some(action.payload)
+    };
+  }
+  /**
+   * clean up "newCreditCard" after it has been
+   * added to pagoPA
+   */
+  if (action.type === CREDIT_CARD_DATA_CLEANUP) {
+    return {
+      ...state,
+      newCreditCard: none
     };
   }
   // TODO: temporary, until the integration with pagoPA

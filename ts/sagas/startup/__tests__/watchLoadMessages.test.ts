@@ -1,7 +1,8 @@
+import { left, right } from "fp-ts/lib/Either";
 import { testSaga } from "redux-saga-test-plan";
 import { call } from "redux-saga/effects";
 
-import { MessageWithContent } from "../../../../definitions/backend/MessageWithContent";
+import { CreatedMessageWithContent } from "../../../../definitions/backend/CreatedMessageWithContent";
 import { ServicePublic } from "../../../../definitions/backend/ServicePublic";
 import {
   loadMessageFailure,
@@ -9,7 +10,10 @@ import {
   loadMessagesSuccess,
   loadMessageSuccess
 } from "../../../store/actions/messages";
-import { loadServiceSuccess } from "../../../store/actions/services";
+import {
+  loadServiceFailure,
+  loadServiceSuccess
+} from "../../../store/actions/services";
 import { messagesByIdSelector } from "../../../store/reducers/entities/messages/messagesById";
 import { servicesByIdSelector } from "../../../store/reducers/entities/services/servicesById";
 import { toMessageWithContentPO } from "../../../types/MessageWithContentPO";
@@ -26,20 +30,24 @@ const testServiceId1 = "5a563817fcc896087002ea46c49a";
 const testMessageWithContent1 = {
   id: testMessageId1,
   created_at: new Date(),
-  markdown:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget fringilla neque, laoreet volutpat elit. Nunc leo nisi, dignissim eget lobortis non, faucibus in augue.",
-  subject: "Lorem ipsum...",
+  content: {
+    markdown:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget fringilla neque, laoreet volutpat elit. Nunc leo nisi, dignissim eget lobortis non, faucibus in augue.",
+    subject: "Lorem ipsum..."
+  },
   sender_service_id: testServiceId1
-} as MessageWithContent;
+} as CreatedMessageWithContent;
 
 const testMessageWithContent2 = {
   id: testMessageId2,
   created_at: new Date(),
-  markdown:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget fringilla neque, laoreet volutpat elit. Nunc leo nisi, dignissim eget lobortis non, faucibus in augue.",
-  subject: "Lorem ipsum...",
+  content: {
+    markdown:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget fringilla neque, laoreet volutpat elit. Nunc leo nisi, dignissim eget lobortis non, faucibus in augue.",
+    subject: "Lorem ipsum..."
+  },
   sender_service_id: testServiceId1
-} as MessageWithContent;
+} as CreatedMessageWithContent;
 
 const testServicePublic = {
   service_id: testServiceId1,
@@ -68,6 +76,7 @@ describe("messages", () => {
       const getMessage = jest.fn();
       testSaga(loadMessage, getMessage, testMessageId1)
         .next()
+        .next()
         .call(getMessage, { id: testMessageId1 });
     });
 
@@ -75,11 +84,12 @@ describe("messages", () => {
       const getMessage = jest.fn();
       testSaga(loadMessage, getMessage, testMessageId1)
         .next()
+        .next()
         // Return undefined as getMessage response
         .next(undefined)
         .put(loadMessageFailure(Error()))
         .next()
-        .returns(Error());
+        .returns(left(Error()));
     });
 
     it("should only return the error if the getMessage response status is not 200", () => {
@@ -87,16 +97,18 @@ describe("messages", () => {
       const error = Error("Backend error");
       testSaga(loadMessage, getMessage, testMessageId1)
         .next()
+        .next()
         // Return 500 with an error message as getMessage response
         .next({ status: 500, value: error })
         .put(loadMessageFailure(error))
         .next()
-        .returns(error);
+        .returns(left(error));
     });
 
     it("should put MESSAGE_LOAD_SUCCESS and return the message if the getMessage response status is 200", () => {
       const getMessage = jest.fn();
       testSaga(loadMessage, getMessage, testMessageId1)
+        .next()
         .next()
         // Return 200 with a valid message as getMessage response
         .next({ status: 200, value: testMessageWithContent1 })
@@ -104,7 +116,7 @@ describe("messages", () => {
           loadMessageSuccess(toMessageWithContentPO(testMessageWithContent1))
         )
         .next()
-        .returns(testMessageWithContent1);
+        .returns(right(toMessageWithContentPO(testMessageWithContent1)));
     });
   });
 
@@ -113,6 +125,7 @@ describe("messages", () => {
       const getService = jest.fn();
       testSaga(loadService, getService, testServiceId1)
         .next()
+        .next()
         .call(getService, { id: testServiceId1 });
     });
 
@@ -120,29 +133,37 @@ describe("messages", () => {
       const getService = jest.fn();
       testSaga(loadService, getService, testServiceId1)
         .next()
+        .next()
         // Return undefined as getService response
         .next(undefined)
-        .returns(Error());
+        .put(loadServiceFailure(Error()))
+        .next()
+        .returns(left(Error()));
     });
 
     it("should only return the error if the getService response status is not 200", () => {
       const getService = jest.fn();
+      const error = Error("Backend error");
       testSaga(loadService, getService, testServiceId1)
+        .next()
         .next()
         // Return 500 with an error message as getService response
         .next({ status: 500, value: Error("Backend error") })
-        .returns(Error("Backend error"));
+        .put(loadServiceFailure(error))
+        .next()
+        .returns(left(Error("Backend error")));
     });
 
     it("should put SERVICE_LOAD_SUCCESS and return the service if the getService response status is 200", () => {
       const getService = jest.fn();
       testSaga(loadService, getService, testServiceId1)
         .next()
+        .next()
         // Return 200 with a valid service as getService response
         .next({ status: 200, value: testServicePublic })
         .put(loadServiceSuccess(testServicePublic))
         .next()
-        .returns(testServicePublic);
+        .returns(right(testServicePublic));
     });
   });
 

@@ -78,6 +78,8 @@ profile:
       exportData:
         title: Esporta i tuoi dati
         description: send to your email all your account’s data in an open format
+    developersSectionHeader: Developers
+    accountSectionHeader: Account
 navigation:
   messages: Messages
   profile: Profile
@@ -146,12 +148,18 @@ authentication:
   idp_selection:
     headerTitle: Home
     contentTitle: Select your Identity Provider
+    subtitle: "The Identity Providers provide several authentication methods
+      and, toghether with SPID, they provide several services: find out more
+      at each one's website."
     cancel: Cancel
   idp_login:
     headerTitle: Login
   errors:
     notoken: The session is not ready or is invalid
     logout: Error on logout
+  expiredSessionBanner:
+    title: Security notice
+    message: To keep you private information safe, please login again with your SPID credentials, thanks!
 onboarding:
   tos:
     headerTitle: Activation
@@ -188,12 +196,6 @@ pin_login:
     help:
       title: hello
       content: hello
-why_a_fee:
-  title: Why do I have to pay a fee?
-  content: |-
-    Tu quoque, Brute, fili mi, nihil timor populi, nihil! Donec sed odio operae, eu vulputate felis rhoncus. Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Hi omnes lingua, institutis, legibus inter se differunt. Magna pars studiorum, prodita quaerimus. Quae vero auctorem tractata ab fiducia dicuntur.
-    Pellentesque habitant morbi tristique senectus et netus. Sed haec quis possit intrepidus aestimare tellus. Cum ceteris in veneratione tui montes, nascetur mus. Me non paenitet nullum festiviorem excogitasse ad hoc. Etiam habebis sem dicantur magna mollis euismod. Ullamco laboris nisi ut aliquid ex ea commodi consequat. Mercedem aut nummos unde unde extricat, amaras. Curabitur est gravida et libero vitae dictum. Fabio vel iudice vincam, sunt in culpa qui officia. Tityre, tu patulae recubans sub tegmine fagi dolor. Me non paenitet nullum festiviorem excogitasse ad hoc.
-    Tu quoque, Brute, fili mi, nihil timor populi, nihil! Donec sed odio operae, eu vulputate felis rhoncus. Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Hi omnes lingua, institutis, legibus inter se differunt. Magna pars studiorum, prodita quaerimus. Quae vero auctorem tractata ab fiducia dicuntur.
 forms:
   validators:
     required: Required value
@@ -216,18 +218,26 @@ payment:
   currentPsp: Your current PSP is
   noPsp: You have yet to select a PSP
   changePsp: Change PSP
-wallet:
+wallet:  
   wallet: Wallet
   creditcards: Credit Cards
   paymentMethods: Payment methods
   paymentMethod: Payment method
+  pickPaymentMethod:
+    unavailable:
+      title: This payment method is not available at this time
+      message: This payment method will be available in a future release
   add: add
+  delete:
+    successful: Card successfully deleted
+    failed: The card could not be deleted
   newPaymentMethod:
     add: add
-    addButton: Add payment method
-    newMethod: Choose another payment method
+    addButton: Add a new card
     addDescription: You can add your payment methods (e.g. credit cards, bank accounts)
       so that you don't have to re-add them from scratch for every transaction
+    successful: The card was added successfully!
+    failed: The card could not be added
   textMsg:
     title: Text confirmation code
     header: Confirmation code
@@ -263,9 +273,12 @@ wallet:
     changeMethod: Change the payment method
     change: Change method
   payWith:
+    noWallets:
+      title: No card found
+      text: Add a new card to proceed with the payment
     header: Choose payment method
     title: Pay with
-    info: Choose one saved payment method or add a new one
+    text: Choose one saved payment method or add a new one
   firstTransactionSummary:
     header: Transaction notice summary
     title: Transaction notice
@@ -310,6 +323,9 @@ wallet:
   transaction: Transaction
   noTransactions: There are no transactions.
   noNewTransactions: There are no new transactions.
+  noneTransactions: There are no transactions
+  noTransactionsDetails: You never used IO neither to pay nor to log in with an user registered on PagoPA, check your messages.
+  moreInfo: Learn more
   payNotice: Pay notice
   latestTransactions: Latest transactions
   creditDebitCards: Credit/Debit Cards
@@ -339,13 +355,15 @@ wallet:
       expirationDate: mm/yy
       securityCode: "•••"
   acceptedCards: Accepted cards
-  whyFee: Why a fee?
   chooseMethod: Select the desired method
   QRtoPay:
     byCameraTitle: Notice QR Code
     cameraUsageInfo: Capture the QR Code on the payment notice with the camera, or
       manually insert the transaction-related data (IUV and the entity/company code).
     setManually: Insert data manually
+  whyAFee:
+    title: Why do I have to pay a fee?
+    text: !include why_a_fee.md
 saveCard:
   saveCard: Save the card
   cancel: Cancel
@@ -375,18 +393,24 @@ messages:
   yesterday: yesterday
   cta:
     pay: Pay € {{amount}}
+    reminder: Reminder
+    reminderTitle: "Reminder for: {{subject}}"
   unknownSender: Unknown sender
   noContent: Content not available
 messageDetails:
   headerTitle: Message
-  detailsLink:
+  invalidText: Invalid parameters!
+  loadingText: Loading message details in progress...
+  errorText: An error occurred while loading the message details.
+  retryText: Retry
+  rawInfoLink:
     showLabel: Details of the message
     hideLabel: Close details
-  infoLabels:
-    data: 'Data:'
-    senderFrom: Sender from
-    department: Department
-    service: Service
+  rawInfoLabels:
+    createdAt: Date
+    organizationName: Sent by
+    departmentName: Department
+    serviceName: Service
 notifications:
   installation:
     errorTitle: Push notifications
@@ -404,6 +428,7 @@ preferences:
     digitalDomicile: Digital domicile
   empty:
     default: No preference set
+  preferencesHelp: !include preferences_home_help.md
 services:
   headerTitle: Services
   title: Available services
@@ -413,4 +438,12 @@ services:
   serviceNotEnabled: The service is not enabled
   pushNotifications: Push Notifications
   emailNotifications: Email Notifications
+  tosLink: Terms and conditions
+  privacyLink: Privacy information
+  otherAppsInfo: You can find this service also
+  otherAppWeb: Online on
+  otherAppIos: With the iOS app
+  otherAppAndroid: With the Android app
   contactsAndInfo: Contacts and info
+  contactAddress: Address
+  contactPhone: Phone

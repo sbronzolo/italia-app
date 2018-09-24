@@ -36,7 +36,7 @@ errors:
 startup:
   title: Inizializzazione
   authentication: Utente autenticato
-  sessionInfo: Attributi SPID caricati
+  sessionInfo: Attributi caricati
   profileInfo: Profilo utente caricato
   profileEnabled: Profilo utente abilitato
 login:
@@ -58,7 +58,7 @@ profile:
   main:
     screenTitle: Profilo
     screenSubtitle: "Qui trovi informazioni e dati legati al tuo account: identità, sicurezza, tuoi
-      dati personali, etc."
+      dati personali."
     logout: Logout/Esci
     privacy:
       title: Privacy
@@ -82,13 +82,15 @@ profile:
         title: Esporta i tuoi dati
         description: ricevi nella tua mail tutti i dati associati al tuo account in
           un formato aperto
+    developersSectionHeader: Sviluppatori
+    accountSectionHeader: Account
 navigation:
   messages: Messaggi
   profile: Profilo
 spid:
   login: ACCEDI
   loginButton: ENTRA CON
-  selectIdp: Per procedere all'accesso, seleziona il gestione della tua identità SPID
+  selectIdp: Per accedere, seleziona il gestore della tua identità SPID
   selectDemoIdp: Se non possiedi ancora una tua identità SPID, naviga l'app in modalità
     demo
   loginErrorAlert:
@@ -98,14 +100,13 @@ spid:
   subscription:
     line1: SPID è l'identità digitale per accedere ai servizi online della Pubblica
       Amministrazione Italiana.
-    line2: Inserisci la tua e-mail per attivarla.
+    line2: Inserisci la tua email per attivarla.
 authentication:
   landing:
     login: Entra con SPID
     nospid: Non hai SPID? Scopri di più
     card1-title: Tutti i messaggi in un solo posto
-    card1-content: Visualizza tutte le comunicazioni in arrivo dalle Amministrazioni
-      Pubbliche
+    card1-content: Visualizza tutte le comunicazioni in arrivo dalla Pubblica Amministrazione
     card2-title: Usa i tuoi metodi di pagamento preferiti
     card2-content: Puoi pagare un tributo o una multa con il tuo conto corrente e
       le tue carte
@@ -119,45 +120,46 @@ authentication:
     headerTitle: Non hai SPID?
     contentTitle: Cos'è SPID?
     paragraph1: SPID, il Sistema Pubblico di Identità Digitale, ti permette di accedere
-      a tutti i servizi della Pubblica Amministrazione con un'unica Identità Digitale
-      (username e password).
+      a tutti i servizi della Pubblica Amministrazione con un unico nome utente e un'unica password.
     paragraph2: Se ti va, lasciaci il tuo indirizzo email per ricevere promemoria
       e aggiornamenti su questa app
     paragraph3: Proseguendo dichiari di accettare le
-    moreLinkText: Per saperne di più
     tosLinkText: regole sul trattamento dei dati personali
     continue: Continua
   spid_information:
     headerTitle: Non hai SPID?
     contentTitle: Cos'è SPID?
     moreLinkText: Per saperne di più
-    subtitle: SPID è sicuro
+    subtitle: Come ottenere SPID
     paragraph1: SPID, il Sistema Pubblico di Identità Digitale, ti permette di accedere
-      a tutti i servizi della Pubblica Amministrazione con un'unica Identità Digitale
-      (username e password).
-    paragraph2-part1: 'SPID ti permette di fare online cose che prima potevi fare
-      solo di persona: per registrarti a SPID dovrai quindi '
+      a tutti i servizi della Pubblica Amministrazione con un unico nome utente e un'unica password.
+    paragraph2-part1: 'SPID ti permette di fare 
+    paragraph2-bold: on line 
+    paragraph2-part2:cose che prima potevi fare solo andando di persona in un ufficio della Pubblica Amministrazione. Per questo motivo per ottenere SPID dovrai prima '
     paragraph2-bold: certificare la tua identità
-    paragraph2-part2: 'completando il riconoscimento presso un Identity Provider.
+    paragraph2-part3: 'completando il riconoscimento presso un Provider.
       Ecco cosa dovrai fare:'
     point1-value: '1'
-    point1-content: "Scegli il tuo \nIdentity Provider"
+    point1-content: "Scegli il tuo \nIdentity Provider, il soggetto che dovrà certificare la tua identità "
     point2-value: '2'
     point2-content: Inserisci i tuoi dati anagrafici ed il tuo cellulare
     point3-value: '3'
     point3-content: Carica una copia dei tuoi documenti d'identità
     point4-value: '4'
-    point4-content: "Completa il \nriconoscimento"
-    knowMore: Puoi saperne di più su spid.gov.it
+    point4-content: "Completa il \nriconoscimento (di persona o via webcam)"
+    knowMore: Richiedi SPID
   idp_selection:
     headerTitle: Home
-    contentTitle: Scegli il tuo Identity Provider
+    contentTitle: Qual è il tuo Identity Provider?
     cancel: Annulla
   idp_login:
     headerTitle: Accedi
   errors:
     notoken: La sessione non è pronta o non è valida
     logout: Errore nel logout
+  expiredSessionBanner:
+    title: Avviso di sicurezza
+    message: Per mantenere al sicuro i tuoi dati privati, accedi nuovamente con le tue credenziali SPID, grazie!
 onboarding:
   tos:
     headerTitle: Attivazione
@@ -167,24 +169,20 @@ onboarding:
     continue: Continua
   pin:
     headerTitle: Attivazione
-    contentTitle: Scegli un codice PIN
-    contentTitleConfirm: Digita ancora il PIN
-    pinInfo: Questo codice ti verrà richiesto ogni volta che aprirai l’app e quando
-      dovrai visualizzare dati sensibili o compiere operazioni dispositive. Deve essere
-      composto di 5 cifre. Ricordalo con attenzione. Potrai cambiarlo in ogni momento
-      entrando con SPID.
-    pinInfoSelected: Questo codice ti verrà richiesto ogni volta che aprirai l’app
-      e quando dovrai visualizzare dati sensibili o compiere operazioni dispositive.
-    moreLinkText: Per saperne di più.
+    contentTitle: Inserisci il tuo codice PIN
+    contentTitleConfirm: Inserisci di nuovo il PIN
+    pinInfo: Scegli un PIN di cinque cifre, il codice di attivazione che userai ogni volta che devi aprire l'app, gestire i tuoi dati, autorizzare e fare pagamenti. Potrai cambiarlo in ogni momento, momento
+    entrando con le tue credenziali SPID.
+    pinInfoSelected: Inserisci di nuovo il tuo PIN.
     continue: Continua
     reset: Modifica il codice
-    confirmValid: grazie, puoi continuare
-    confirmInvalid: i due pin non coincidono
+    confirmValid: Grazie, puoi continuare
+    confirmInvalid: I due PIN non coincidono
 pin_login:
   pin:
-    pinInfo: Inserisci il codice PIN
+    pinInfo: Inserisci di nuovo il tuo codice di attivazione di cinque cifre (PIN) e prosegui
     reset:
-      button: Ho dimenticato il mio PIN
+      button: Ho dimenticato il PIN
       button_short: Reimposta PIN
       tip: Per reimpostare il tuo PIN dovrai accedere nuovamente con la tua identità
         SPID.
@@ -195,12 +193,6 @@ pin_login:
     help:
       title: hello
       content: hello
-why_a_fee:
-  title: Perchè devo pagare una commissione?
-  content: |-
-    Tu quoque, Brute, fili mi, nihil timor populi, nihil! Donec sed odio operae, eu vulputate felis rhoncus. Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Hi omnes lingua, institutis, legibus inter se differunt. Magna pars studiorum, prodita quaerimus. Quae vero auctorem tractata ab fiducia dicuntur.
-    Pellentesque habitant morbi tristique senectus et netus. Sed haec quis possit intrepidus aestimare tellus. Cum ceteris in veneratione tui montes, nascetur mus. Me non paenitet nullum festiviorem excogitasse ad hoc. Etiam habebis sem dicantur magna mollis euismod. Ullamco laboris nisi ut aliquid ex ea commodi consequat. Mercedem aut nummos unde unde extricat, amaras. Curabitur est gravida et libero vitae dictum. Fabio vel iudice vincam, sunt in culpa qui officia. Tityre, tu patulae recubans sub tegmine fagi dolor. Me non paenitet nullum festiviorem excogitasse ad hoc.
-    Tu quoque, Brute, fili mi, nihil timor populi, nihil! Donec sed odio operae, eu vulputate felis rhoncus. Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Hi omnes lingua, institutis, legibus inter se differunt. Magna pars studiorum, prodita quaerimus. Quae vero auctorem tractata ab fiducia dicuntur.
 forms:
   validators:
     required: Valore richiesto
@@ -229,12 +221,17 @@ wallet:
   paymentMethods: Metodi di pagamento
   paymentMethod: Metodo di pagamento
   add: aggiungi
+  delete:
+    successful: Carta cancellata correttamente
+    failed: Impossibile cancellare la carta
   newPaymentMethod:
     add: aggiungi
     addButton: Aggiungi un metodo di pagamento
     newMethod: Scegli un altro metodo di pagamento
     addDescription: Puoi aggiungere i tuoi metodi di pagamento (carte, conti correnti,
       ecc.) per non doverli inserire ad ogni transazione
+    successful: Carta aggiunta con successo
+    failed: Impossibile aggiungere la carta
   textMsg:
     title: Codice di conferma
     header: Codice di Conferma SMS
@@ -261,12 +258,12 @@ wallet:
   ConfirmPayment:
     header: Conferma pagamento
     cancel: ANNULLA
-    cancelPayment: Annulla il pagamento
+    cancelPayment: Annulla l'operazione
     goToPay: Conferma e paga
     askConfirm: Confermi il pagamento?
     partialAmount: Importo da pagare
     fee: Costi di commissione
-    why: Perchè?
+    why: Perché?
     totalAmount: Totale
     info: 'Attenzione: dopo questo passaggio non sarà più possibile annullare'
     info2: Stai utilizzando il tuo metodo di pagamento preferito.
@@ -319,6 +316,9 @@ wallet:
   transaction: Operazione
   noTransactions: Non ci sono operazioni.
   noNewTransactions: Non ci sono nuove operazioni.
+  noneTransactions: Nessuna operazione
+  noTransactionsDetails: Non hai ancora pagato nulla con IO o utilizzato un utente registrato su PagoPA, controlla i tuoi messaggi.
+  moreInfo: Per saperne di più
   payNotice: Paga un avviso
   latestTransactions: Ultime operazioni
   creditDebitCards: Carte di Credito/Debito
@@ -348,13 +348,15 @@ wallet:
       expirationDate: mm/aa
       securityCode: "•••"
   acceptedCards: Carte accettate
-  whyFee: Perchè la commissione?
   chooseMethod: Scegli il metodo che preferisci
   QRtoPay:
     byCameraTitle: QR Code avviso
     cameraUsageInfo: Inquadra il QR Code che trovi nell'avviso con la fotocamera, oppure
       inserisci manualmente i dati identificativi (IUV e codive ente/azienda).
     setManually: Inserisci i dati manualmente
+  whyAFee:
+    title: Perchè devo pagare le commissioni?
+    text: !include why_a_fee.md
 saveCard:
   saveCard: Salva la carta
   cancel: Annulla
@@ -385,18 +387,24 @@ messages:
   yesterday: ieri
   cta:
     pay: Paga € {{amount}}
+    reminder: Promemoria
+    reminderTitle: "Promemoria per: {{subject}}"
   unknownSender: Mittente sconosciuto
   noContent: Contenuto non disponibile
 messageDetails:
   headerTitle: Messaggio
-  detailsLink:
+  invalidText: Parametri non validi!
+  loadingText: Caricamento dei dettagli del messagio in corso...
+  errorText: Si è verificato un errore durante il caricamento dei dettagli del messaggio.
+  retryText: Riprova
+  rawInfoLink:
     showLabel: Dettagli del messaggio
     hideLabel: Chiudi dettagli
-  infoLabels:
-    data: 'Data:'
-    senderFrom: Inviato da
-    department: Dipartimento
-    service: Servizio
+  rawInfoLabels:
+    createdAt: Data
+    organizationName: Inviato da
+    departmentName: Dipartimento
+    serviceName: Servizio
 notifications:
   installation:
     errorTitle: Notifiche push
@@ -416,6 +424,7 @@ preferences:
     digitalDomicile: Domicilio digitale
   empty:
     default: Nessuna preferenza impostata
+  preferencesHelp: !include preferences_home_help.md
 services:
   headerTitle: Servizi
   title: Elenco dei servizi
@@ -425,4 +434,12 @@ services:
   serviceNotEnabled: Il servizio non è attivo
   pushNotifications: Notifiche push
   emailNotifications: Notifiche email
+  tosLink: Termini e condizioni d'uso
+  privacyLink: Informativa sulla privacy
+  otherAppsInfo: Puoi usare questo servizio anche
+  otherAppWeb: Online su
+  otherAppIos: Con l'app per iOS
+  otherAppAndroid: Con l'app per Android
   contactsAndInfo: Contatti ed informazioni
+  contactAddress: Indirizzo
+  contactPhone: Telefono

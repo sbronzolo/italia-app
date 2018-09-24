@@ -15,13 +15,18 @@ export type ErrorState = Readonly<
   { [key in FetchRequestActionsType]: Option<string> }
 >;
 
-export const INITIAL_STATE: ErrorState = {
+const INITIAL_STATE: ErrorState = {
   TOS_ACCEPT: none,
   PIN_CREATE: none,
   PROFILE_LOAD: none,
   PROFILE_UPSERT: none,
+  MESSAGE_WITH_RELATIONS_LOAD: none,
   MESSAGES_LOAD: none,
-  LOGOUT: none
+  LOGOUT: none,
+  PAYMENT_LOAD: none,
+  WALLET_MANAGEMENT_LOAD: none,
+  FETCH_WALLETS: none,
+  FETCH_TRANSACTIONS: none
 };
 
 /**

@@ -2,20 +2,19 @@
  * Notifications installation reducer
  */
 
-import uuid from "uuid/v4";
-
+import { generateInstallationId } from "../../../utils/installation";
 import { NOTIFICATIONS_INSTALLATION_TOKEN_UPDATE } from "../../actions/constants";
 import { Action } from "../../actions/types";
 import { GlobalState } from "../types";
 
 export type InstallationState = Readonly<{
-  uuid: string;
+  id: string;
   token: string | undefined;
 }>;
 
 export function getInitialState(): InstallationState {
   return {
-    uuid: uuid(),
+    id: generateInstallationId(),
     token: undefined
   };
 }

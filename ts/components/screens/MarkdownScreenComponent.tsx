@@ -1,14 +1,12 @@
 import { Content, View } from "native-base";
 import * as React from "react";
-import { ActivityIndicator, InteractionManager } from "react-native";
-
-import Markdown from "../ui/Markdown";
-
-import BaseScreenComponent from "./BaseScreenComponent";
-
-import { ComponentProps } from "../../types/react";
+import { InteractionManager } from "react-native";
 
 import themeVariables from "../../theme/variables";
+import { ComponentProps } from "../../types/react";
+import ActivityIndicator from "../ui/ActivityIndicator";
+import Markdown from "../ui/Markdown";
+import BaseScreenComponent from "./BaseScreenComponent";
 
 interface OwnProps {
   readonly markdown: string;
@@ -46,10 +44,7 @@ export class MarkdownScreenComponent extends React.PureComponent<Props, State> {
       <BaseScreenComponent {...this.props}>
         {!this.state.content && (
           <View centerJustified={true}>
-            <ActivityIndicator
-              size="large"
-              color={themeVariables.brandPrimaryLight}
-            />
+            <ActivityIndicator color={themeVariables.brandPrimaryLight} />
           </View>
         )}
         {this.state.content && <Content>{this.state.content}</Content>}

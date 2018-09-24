@@ -23,7 +23,7 @@ type Routes = keyof typeof ROUTES;
 
 type RouteLabelMap = { [key in Routes]?: string };
 const ROUTE_LABEL: RouteLabelMap = {
-  MESSAGES_HOME: I18n.t("global.navigator.messages"),
+  MESSAGES_NAVIGATOR: I18n.t("global.navigator.messages"),
   WALLET_HOME: I18n.t("global.navigator.wallet"),
   DOCUMENTS_HOME: I18n.t("global.navigator.documents"),
   PREFERENCES_HOME: I18n.t("global.navigator.preferences"),
@@ -32,7 +32,7 @@ const ROUTE_LABEL: RouteLabelMap = {
 
 type RouteIconMap = { [key in Routes]?: string };
 const ROUTE_ICON: RouteIconMap = {
-  MESSAGES_HOME: "io-messaggi",
+  MESSAGES_NAVIGATOR: "io-messaggi",
   WALLET_HOME: "io-portafoglio",
   DOCUMENTS_HOME: "io-documenti",
   PREFERENCES_HOME: "io-preferenze",
@@ -65,8 +65,21 @@ const styles = StyleSheet.create({
     paddingLeft: 3,
     paddingRight: 3,
     borderTopWidth: 0,
-    paddingTop: 12,
-    paddingBottom: 7
+    paddingTop: 8,
+    paddingBottom: 10
+  },
+  upsideShadow: {
+    // iOS shadow
+    shadowColor: variables.footerShadowColor,
+    shadowOffset: {
+      width: variables.footerShadowOffsetWidth,
+      height: variables.footerShadowOffsetHeight
+    },
+    zIndex: 999,
+    shadowOpacity: variables.footerShadowOpacity,
+    shadowRadius: variables.footerShadowRadius,
+    // Android shadow
+    elevation: variables.footerElevation
   }
 });
 
@@ -75,7 +88,7 @@ const styles = StyleSheet.create({
  */
 const navigation = createBottomTabNavigator(
   {
-    [ROUTES.MESSAGES_HOME]: {
+    [ROUTES.MESSAGES_NAVIGATOR]: {
       screen: MessageNavigator
     },
     [ROUTES.WALLET_HOME]: {
@@ -124,11 +137,11 @@ const navigation = createBottomTabNavigator(
     tabBarOptions: {
       activeTintColor: variables.brandPrimary,
       inactiveTintColor: variables.brandDarkGray,
-      style: styles.tabBarStyle
+      style: [styles.tabBarStyle, styles.upsideShadow]
     },
     animationEnabled: true,
     swipeEnabled: false,
-    initialRouteName: ROUTES.MESSAGES_HOME
+    initialRouteName: ROUTES.MESSAGES_NAVIGATOR
   }
 );
 
