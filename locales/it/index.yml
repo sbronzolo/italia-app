@@ -36,7 +36,7 @@ errors:
 startup:
   title: Inizializzazione
   authentication: Utente autenticato
-  sessionInfo: Attributi caricati
+  sessionInfo: Attributi SPID caricati
   profileInfo: Profilo utente caricato
   profileEnabled: Profilo utente abilitato
 login:
@@ -73,14 +73,14 @@ profile:
         tuoi dati personali.
       privacyPolicy:
         title: Privacy policy
-        description: rivedi le regole sulla privacy che hai accettato
+        description: Rivedi le regole sulla privacy che hai accettato
       removeAccount:
         title: Cancella il tuo account
-        description: elimina sia dal telefono che da internet tutti i data ad esso
+        description: Elimina sia dal telefono che da internet tutti i dati ad esso
           associati (richiede SPID)
       exportData:
         title: Esporta i tuoi dati
-        description: ricevi nella tua mail tutti i dati associati al tuo account in
+        description: Ricevi nella tua email tutti i dati associati al tuo account in
           un formato aperto
     developersSectionHeader: Sviluppatori
     accountSectionHeader: Account
@@ -106,14 +106,14 @@ authentication:
     login: Entra con SPID
     nospid: Non hai SPID? Scopri di più
     card1-title: Tutti i messaggi in un solo posto
-    card1-content: Visualizza tutte le comunicazioni in arrivo dalla Pubblica Amministrazione
+    card1-content: Visualizza tutte le comunicazioni in arrivo dalle amministrazioni pubbliche
     card2-title: Usa i tuoi metodi di pagamento preferiti
     card2-content: Puoi pagare un tributo o una multa con il tuo conto corrente e
       le tue carte
     card3-title: Paga velocemente un avviso cartaceo
     card3-content: Tramite la scansione del QR code puoi velocemente pagare anche
-      un avviso cartaceo
-    card4-title: Potrai utilizzare l'app solo tramite SPID
+      un avviso di pagamento ricevuto per posta
+    card4-title: Grazie a SPID la tua identità è al sicuro
     card4-content: L'accesso è consentito solo tramite SPID (Sistema Pubblico di Identità
       Digitale) per garantire la tua sicurezza online
   spid_information_request:
@@ -135,9 +135,10 @@ authentication:
       a tutti i servizi della Pubblica Amministrazione con un unico nome utente e un'unica password.
     paragraph2-part1: 'SPID ti permette di fare 
     paragraph2-bold: on line 
-    paragraph2-part2:cose che prima potevi fare solo andando di persona in un ufficio della Pubblica Amministrazione. Per questo motivo per ottenere SPID dovrai prima '
+    paragraph2-part2:cose che prima potevi fare solo andando di persona in un ufficio pubblico. 
+    Per questo motivo per ottenere SPID dovrai prima '
     paragraph2-bold: certificare la tua identità
-    paragraph2-part3: 'completando il riconoscimento presso un Provider.
+    paragraph2-part3: 'completando il riconoscimento presso un gestore di identità digitale (Identity Provider).
       Ecco cosa dovrai fare:'
     point1-value: '1'
     point1-content: "Scegli il tuo \nIdentity Provider, il soggetto che dovrà certificare la tua identità "
@@ -151,6 +152,7 @@ authentication:
   idp_selection:
     headerTitle: Home
     contentTitle: Qual è il tuo Identity Provider?
+    subtitle: "Seleziona il gestore della tua identità digitale"
     cancel: Annulla
   idp_login:
     headerTitle: Accedi
@@ -167,17 +169,17 @@ onboarding:
     section1: Termini e condizioni d’uso del servizio
     section2: Regole sul trattamento dei dati personali
     continue: Continua
-  pin:
+pin:
     headerTitle: Attivazione
-    contentTitle: Inserisci il tuo codice PIN
-    contentTitleConfirm: Inserisci di nuovo il PIN
-    pinInfo: Scegli un PIN di cinque cifre, il codice di attivazione che userai ogni volta che devi aprire l'app, gestire i tuoi dati, autorizzare e fare pagamenti. Potrai cambiarlo in ogni momento, momento
+    contentTitle: Scegli un codice PIN
+    contentTitleConfirm: Conferma il PIN
+    pinInfo: Scegli un PIN di cinque cifre, il codice di attivazione che userai ogni volta che devi aprire e usare l'app. Potrai cambiarlo in ogni momento,
     entrando con le tue credenziali SPID.
-    pinInfoSelected: Inserisci di nuovo il tuo PIN.
+    pinInfoSelected:
     continue: Continua
     reset: Modifica il codice
-    confirmValid: Grazie, puoi continuare
-    confirmInvalid: I due PIN non coincidono
+    confirmValid: Grazie, puoi continuare!
+    confirmInvalid: I due PIN non coincidono. Riprova!
 pin_login:
   pin:
     pinInfo: Inserisci di nuovo il tuo codice di attivazione di cinque cifre (PIN) e prosegui
@@ -188,7 +190,7 @@ pin_login:
         SPID.
       tip_short: Dovrai accedere nuovamente con SPID.
     confirmValid: PIN corretto
-    confirmInvalid: PIN non valido
+    confirmInvalid: PIN non valido, riprova!
   unlock_screen:
     help:
       title: hello
@@ -228,8 +230,8 @@ wallet:
     add: aggiungi
     addButton: Aggiungi un metodo di pagamento
     newMethod: Scegli un altro metodo di pagamento
-    addDescription: Puoi aggiungere i tuoi metodi di pagamento (carte, conti correnti,
-      ecc.) per non doverli inserire ad ogni transazione
+    addDescription: Puoi aggiungere qui i tuoi metodi di pagamento preferiti (carte, conti correnti,
+      ecc.) per non doverli inserire ogni volta.
     successful: Carta aggiunta con successo
     failed: Impossibile aggiungere la carta
   textMsg:
@@ -250,7 +252,7 @@ wallet:
   pickPsp:
     title: Scegli il gestore
     info: Questa carta non è stata emessa da nessun istituto che fa parte del circuito
-      PagoPA.
+      pagoPA.
     infoBold: Scegli il soggetto economico
     info2: che dovrà gestire la tua transazione.
     link: Per saperne di più
@@ -295,11 +297,12 @@ wallet:
     moreInfo: Per saperne di più
   insertManually:
     header: Inserisci dati avviso
-    title: Inserisci i dati dell'avviso
-    info: che ci consentono di identificare il pagamento
+    title: Inserisci i dati
+    info: Inserisci il codice dell'avviso di pagamento
+    e il codice fiscale dell'ente
     link: Dove si trovano?
-    noticeCode: Codice Avviso
-    entityCode: Codice Fiscale Ente Creditore
+    noticeCode: Codice avviso
+    entityCode: Codice fiscale ente creditore
     amount: Importo (€)
     proceed: Procedi con il pagamento
   total: Totale
@@ -316,11 +319,12 @@ wallet:
   transaction: Operazione
   noTransactions: Non ci sono operazioni.
   noNewTransactions: Non ci sono nuove operazioni.
-  noneTransactions: Nessuna operazione
-  noTransactionsDetails: Non hai ancora pagato nulla con IO o utilizzato un utente registrato su PagoPA, controlla i tuoi messaggi.
+  noneTransactions: Devi pagare qualcosa?
+  noTransactionsDetails: Vai alla sezione messaggi per verificare se ci sono avvisi di pagamento. 
+  Oppure segui la procedura per pagare velocemente un avviso cartaceo
   moreInfo: Per saperne di più
-  payNotice: Paga un avviso
-  latestTransactions: Ultime operazioni
+  payNotice: Paga un avviso cartaceo
+  latestTransactions: I tuoi pagamenti
   creditDebitCards: Carte di Credito/Debito
   addPaymentMethodTitle: Aggiungi metodo di pagamento
   cancel: Annulla
@@ -351,8 +355,8 @@ wallet:
   chooseMethod: Scegli il metodo che preferisci
   QRtoPay:
     byCameraTitle: QR Code avviso
-    cameraUsageInfo: Inquadra il QR Code che trovi nell'avviso con la fotocamera, oppure
-      inserisci manualmente i dati identificativi (IUV e codive ente/azienda).
+    cameraUsageInfo: Inquadra il QR Code che trovi nell'avviso cartaceo, oppure
+      inserisci i dati manualmente.
     setManually: Inserisci i dati manualmente
   whyAFee:
     title: Perchè devo pagare le commissioni?
@@ -408,7 +412,7 @@ messageDetails:
 notifications:
   installation:
     errorTitle: Notifiche push
-    errorMessage: La registrazione verso il servizio di notifiche push ha generato
+    errorMessage: La registrazione al servizio di notifiche push ha generato
       un errore
 preferences:
   title: Preferenze
